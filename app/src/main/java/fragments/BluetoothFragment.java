@@ -1,14 +1,25 @@
 package fragments;
 
 import android.app.Fragment;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothHealth;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mactrical.mindoter.R;
+
+import java.util.Set;
+
+import static common.MindoterConstants.REQUEST_ENABLE_BT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +40,11 @@ public class BluetoothFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private BluetoothAdapter mBluetoothAdapter;
+
+    public BluetoothHeadset mBluetoothHeadSet;
+    public BluetoothHealth  mBluetoothHealth;
 
     public BluetoothFragment() {
         // Required empty public constructor
@@ -79,6 +95,69 @@ public class BluetoothFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    @Override
+    public  void onStart(){
+        super.onStart();
+
+        if(mBluetoothAdapter == null){
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        }
+
+        if(mBluetoothAdapter != null){
+            if(!mBluetoothAdapter.isEnabled()){
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            }
+
+            Set<BluetoothDevice> mBTdevices = mBluetoothAdapter.getBondedDevices();
+            if(mBTdevices.size() > 0){
+                for(BluetoothDevice mBTDevice : mBTdevices) {
+                    String deviceName = mBTDevice.getName();
+                    String deviceHardwareAddress = mBTDevice.getAddress(); // MAC address
+
+                    Toast.makeText(BluetoothFragment.this.getActivity(),deviceName,Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        }else{
+            Toast.makeText(this.getActivity(),"Your phone doesn't support Bluetooth.",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private BluetoothProfile.ServiceListener mBluetoothProfilelister = new BluetoothProfile.ServiceListener(){
+
+        /**
+         * Called to notify the client when the proxy object has been
+         * connected to the service.
+         *
+         */
+        @Override
+        public void onServiceConnected(int profile, BluetoothProfile proxy) {
+            if(profile == BluetoothProfile.HEADSET){
+                mBluetoothHeadSet = (BluetoothHeadset) proxy;
+            }
+
+            if(profile == BluetoothProfile.HEALTH){
+                mBluetoothHealth    = (BluetoothHealth)proxy;
+            }
+        }
+
+        /**
+         * Called to notify the client that this proxy object has been
+         * disconnected from the service.
+         */
+        @Override
+        public void onServiceDisconnected(int profile) {
+            if(profile == BluetoothProfile.HEADSET)
+                mBluetoothHeadSet = null;
+
+            if(profile == BluetoothProfile.HEALTH)
+                mBluetoothHealth = null;
+        }
+    };
 
     @Override
     public void onDetach() {
