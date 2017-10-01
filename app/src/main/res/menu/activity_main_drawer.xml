@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_cardiacmonitor"
+            android:icon="@drawable/nav_cardiacmonitor"
+            android:title="Monitor" />
+        <item
+            android:id="@+id/nav_pastevents"
+            android:icon="@drawable/nav_pastevents"
+            android:title="Past Events" />
+        <item
+            android:id="@+id/nav_diagnosis"
+            android:icon="@drawable/nav_diagnosis"
+            android:title="Test" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/nav_settings"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/nav_report"
+            android:icon="@drawable/nav_reports"
+            android:title="Report" />
+
+        <item
+            android:id="@+id/nav_device_map"
+            android:icon="@drawable/addtoreport"
+            android:title="Track" />
+
+        <item
+            android:id="@+id/nav_blueconnect"
+            android:icon="@drawable/addtoreport"
+            android:title="Bluetooth" />
+    </group>
+
+</menu>

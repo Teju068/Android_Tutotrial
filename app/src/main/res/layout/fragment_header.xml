@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorNavApp"
+    tools:context="fragments.HeaderFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:background="@color/colorHeaderApp"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:layout_weight="5">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/DemoFontSize"
+                android:layout_weight="5"
+                android:labelFor="@+id/AlarmNamelbl"
+                android:text="@string/alarmname" />
+            <TextView
+                android:id="@+id/AlarmNamelbl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sinus_bradycardia"
+                android:textSize="@dimen/DemoFontSize"
+                android:layout_weight="5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5">
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
