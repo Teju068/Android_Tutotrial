@@ -1,8 +1,73 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="10"
     tools:context="fragments.BluetoothFragment">
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:background="@color/colorContentApp"
+        >
+        <Button
+            android:id="@+id/Btn_RefreshDeviceList"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/grid_margin"
+            android:text="Refresh"
+            >
+        </Button>
+        <Button
+            android:id="@+id/Btn_ConnectBTDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_margin"
+            android:text="Connect"
+            />
 
-</FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:orientation="horizontal"
+        android:background="@color/colorAccent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/TxtVw_DeviceLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Device"
+                android:labelFor="@+id/Spnnr_BTDeviceList"
+                />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Spnnr_BTDeviceList"
+                ></Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/TxtVw_VisibleDevices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Here"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

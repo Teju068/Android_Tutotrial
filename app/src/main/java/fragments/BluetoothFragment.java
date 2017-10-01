@@ -1,22 +1,34 @@
 package fragments;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothHealth;
 import android.bluetooth.BluetoothProfile;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mactrical.mindoter.R;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static common.MindoterConstants.REQUEST_ENABLE_BT;
@@ -29,7 +41,7 @@ import static common.MindoterConstants.REQUEST_ENABLE_BT;
  * Use the {@link BluetoothFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BluetoothFragment extends Fragment {
+public class BluetoothFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -45,6 +57,16 @@ public class BluetoothFragment extends Fragment {
 
     public BluetoothHeadset mBluetoothHeadSet;
     public BluetoothHealth  mBluetoothHealth;
+
+    IntentFilter mIntentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+
+    TextView DeviceTxtVw;
+
+    Spinner DeviceListSpnnr;
+
+    private ArrayAdapter<String> mArrayAdapter;
+    List<String> list = new ArrayList<String>();
+
 
     public BluetoothFragment() {
         // Required empty public constructor
@@ -75,7 +97,22 @@ public class BluetoothFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bluetooth, container, false);
+        View BTFragmentView;
+
+        BTFragmentView =  inflater.inflate(R.layout.fragment_bluetooth, container, false);
+
+        Button mRefreshBtn = (Button)BTFragmentView.findViewById(R.id.Btn_RefreshDeviceList);
+        mRefreshBtn.setOnClickListener(this);
+
+        Button mConnectionBtn = (Button)BTFragmentView.findViewById(R.id.Btn_ConnectBTDevice);
+        mConnectionBtn.setOnClickListener(this);
+
+
+        DeviceTxtVw = (TextView)BTFragmentView.findViewById(R.id.TxtVw_DeviceLbl);
+
+        DeviceListSpnnr = (Spinner)BTFragmentView.findViewById(R.id.Spnnr_BTDeviceList);
+
+        return BTFragmentView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,6 +132,29 @@ public class BluetoothFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+
+
+                list.add(deviceHardwareAddress);
+                mArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_spinner_item, list);
+                mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                DeviceListSpnnr.setAdapter(mArrayAdapter);
+
+            }
+        }
+    };
+
 
     @Override
     public  void onStart(){
@@ -119,13 +179,15 @@ public class BluetoothFragment extends Fragment {
                     Toast.makeText(BluetoothFragment.this.getActivity(),deviceName,Toast.LENGTH_LONG).show();
                 }
             }
-
-
         }else{
             Toast.makeText(this.getActivity(),"Your phone doesn't support Bluetooth.",Toast.LENGTH_LONG).show();
         }
 
+        this.getActivity().registerReceiver(receiver,mIntentFilter);
+
     }
+
+
 
     private BluetoothProfile.ServiceListener mBluetoothProfilelister = new BluetoothProfile.ServiceListener(){
 
@@ -163,6 +225,50 @@ public class BluetoothFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+
+        int nBtnID;
+
+        nBtnID = v.getId();
+        switch (nBtnID){
+            case R.id.Btn_RefreshDeviceList:
+                Toast.makeText(this.getActivity(),"Refreshed",Toast.LENGTH_LONG).show();
+                startDiscovery();
+                break;
+            case R.id.Btn_ConnectBTDevice:
+                Toast.makeText(this.getActivity(), "Connected",Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    private void startDiscovery(){
+        /**
+         * This code provides permission for Bluetooth discovery
+         * This code is required only on 6.0 onwards
+         */
+        int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+        ActivityCompat.requestPermissions(this.getActivity(),
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+
+        /**
+         * This starts the discovery of visible bluetooth
+         */
+        if(!mBluetoothAdapter.isDiscovering())
+            mBluetoothAdapter.startDiscovery();
+    }
+
+    private void connectDevice(){
+        if(mBluetoothAdapter != null)
+            mBluetoothAdapter.cancelDiscovery();
     }
 
     /**
