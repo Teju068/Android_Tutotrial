@@ -273,6 +273,10 @@ public class MainActivity extends AppCompatActivity
         mMainContentlayout.setLayoutParams(param);
     }
 
+    public void startBLEDataReceiveService(){
+
+    }
+
 
 
     @Override

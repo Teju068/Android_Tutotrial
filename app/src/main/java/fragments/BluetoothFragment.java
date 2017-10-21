@@ -8,15 +8,21 @@ import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothHealth;
 import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -25,11 +31,12 @@ import android.widget.Toast;
 
 import com.mactrical.mindoter.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
+
+import services.BluetoothGattService;
 
 import static common.MindoterConstants.REQUEST_ENABLE_BT;
 
@@ -41,11 +48,13 @@ import static common.MindoterConstants.REQUEST_ENABLE_BT;
  * Use the {@link BluetoothFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BluetoothFragment extends Fragment implements View.OnClickListener {
+public class BluetoothFragment extends Fragment implements View.OnClickListener , AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public  static  final String TAG = "BluetoothFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,8 +73,20 @@ public class BluetoothFragment extends Fragment implements View.OnClickListener 
 
     Spinner DeviceListSpnnr;
 
-    private ArrayAdapter<String> mArrayAdapter;
+    BluetoothGattService mBluetoothGattService;
+
+
+    protected ArrayAdapter<String> mArrayAdapter;
     List<String> list = new ArrayList<String>();
+
+    Handler mDeviceSearchHandler;
+
+    private boolean mScanning;
+
+    // Stops scanning after 10 seconds.
+    private static final long SCAN_PERIOD = 10000;
+
+    private String connectedDeviceAddress;
 
 
     public BluetoothFragment() {
@@ -112,6 +133,10 @@ public class BluetoothFragment extends Fragment implements View.OnClickListener 
 
         DeviceListSpnnr = (Spinner)BTFragmentView.findViewById(R.id.Spnnr_BTDeviceList);
 
+        mDeviceSearchHandler = new Handler();
+
+        //DeviceListSpnnr.setOnItemClickListener(this);
+
         return BTFragmentView;
     }
 
@@ -145,7 +170,9 @@ public class BluetoothFragment extends Fragment implements View.OnClickListener 
                 String deviceHardwareAddress = device.getAddress(); // MAC address
 
 
-                list.add(deviceHardwareAddress);
+                if(!CheckIfItemExist(deviceHardwareAddress))
+                    list.add(deviceHardwareAddress);
+
                 mArrayAdapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_spinner_item, list);
                 mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -154,6 +181,15 @@ public class BluetoothFragment extends Fragment implements View.OnClickListener 
             }
         }
     };
+
+    private boolean CheckIfItemExist(String strDeviceAddress){
+        for(String strDeviceAddressInList : list){
+            if(strDeviceAddressInList.equals(strDeviceAddress)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     @Override
@@ -241,15 +277,21 @@ public class BluetoothFragment extends Fragment implements View.OnClickListener 
         switch (nBtnID){
             case R.id.Btn_RefreshDeviceList:
                 Toast.makeText(this.getActivity(),"Refreshed",Toast.LENGTH_LONG).show();
-                startDiscovery();
+                //startBTDiscovery();
+                startBLEDiscovery(true);
                 break;
             case R.id.Btn_ConnectBTDevice:
                 Toast.makeText(this.getActivity(), "Connected",Toast.LENGTH_LONG).show();
+                if(mBluetoothAdapter.isDiscovering()){
+                    mBluetoothAdapter.cancelDiscovery();
+                }
+
+                initGattService();
                 break;
         }
     }
 
-    private void startDiscovery(){
+    private void startBTDiscovery(){
         /**
          * This code provides permission for Bluetooth discovery
          * This code is required only on 6.0 onwards
@@ -266,9 +308,94 @@ public class BluetoothFragment extends Fragment implements View.OnClickListener 
             mBluetoothAdapter.startDiscovery();
     }
 
+
+    private void startBLEDiscovery(boolean enable){
+
+        if (enable) {
+            // Stops scanning after a pre-defined scan period.
+            mDeviceSearchHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mScanning = false;
+                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                }
+            }, SCAN_PERIOD);
+
+            mScanning = true;
+            mBluetoothAdapter.startLeScan(mLeScanCallback);
+        } else {
+            mScanning = false;
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+        }
+    }
+
+    private void initGattService(){
+        
+        Intent mIntent = new Intent(this.getActivity() , BluetoothGattService.class);
+        bindService(mIntent,serviceGattConnection,Context.BIND_AUTO_CREATE);
+    }
+
+    private ServiceConnection serviceGattConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBluetoothGattService = ((BluetoothGattService.LocalBinder) service).getService();
+
+            mBluetoothGattService.initialize();
+
+            Log.d(TAG,"service Connnected and Initialized");
+
+           // mBluetoothGattService.connectToDevice(connectedDeviceAddress);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+
+    // Device scan callback.
+    private BluetoothAdapter.LeScanCallback mLeScanCallback =
+            new BluetoothAdapter.LeScanCallback() {
+                @Override
+                public void onLeScan(final BluetoothDevice device, int rssi,
+                                     byte[] scanRecord) {
+                       getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!CheckIfItemExist(device.getAddress()))
+                                list.add(device.getAddress());
+                            connectedDeviceAddress = device.getAddress();
+                            mArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                                    android.R.layout.simple_spinner_item, list);
+                            mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            DeviceListSpnnr.setAdapter(mArrayAdapter);
+                        }
+                    });
+                }
+            };
+
+
     private void connectDevice(){
         if(mBluetoothAdapter != null)
             mBluetoothAdapter.cancelDiscovery();
+    }
+    /**
+     * Callback method to be invoked when an item in this AdapterView has
+     * been clicked.
+     * <p>
+     * Implementers can call getItemAtPosition(position) if they need
+     * to access the data associated with the selected item.
+     *
+     * @param parent   The AdapterView where the click happened.
+     * @param view     The view within the AdapterView that was clicked (this
+     *                 will be a view provided by the adapter)
+     * @param position The position of the view in the adapter.
+     * @param id       The row id of the item that was clicked.
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 
     /**
