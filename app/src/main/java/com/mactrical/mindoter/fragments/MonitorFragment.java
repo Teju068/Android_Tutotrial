@@ -10,17 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.mactrical.mindoter.R;
+import com.tv.common.BaseFragment;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link BaseFragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link MonitorFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link MonitorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonitorFragment extends Fragment {
+public class MonitorFragment extends BaseFragment {
     private OnFragmentInteractionListener mListener;
 
 

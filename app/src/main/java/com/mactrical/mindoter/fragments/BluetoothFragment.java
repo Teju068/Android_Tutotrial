@@ -7,19 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.mactrical.mindoter.R;
+import com.tv.common.BaseFragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link BaseFragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link BluetoothFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link BluetoothFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BluetoothFragment extends Fragment {
+public class BluetoothFragment extends BaseFragment {
 
     private OnFragmentInteractionListener mListener;
 
