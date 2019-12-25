@@ -1,19 +1,21 @@
 package com.mactrical.mindoter;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 
 import fragments.BluetoothFragment;
 import fragments.DeviceMapFragment;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -58,9 +60,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
 
 
-        mHeaderlayout       = (LinearLayout)findViewById(R.id.ECGDetailsLinearLayout);
-        mMainContentlayout  = (LinearLayout)findViewById(R.id.MainContentLinearLayout);
-        mFooterlayout       = (LinearLayout)findViewById(R.id.ECGFooterLinerLayout);
+        mHeaderlayout       = findViewById(R.id.ECGDetailsLinearLayout);
+        mMainContentlayout  = findViewById(R.id.MainContentLinearLayout);
+        mFooterlayout       = findViewById(R.id.ECGFooterLinerLayout);
 
 
         /* load Page header */
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity
 
         loadECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         MonitorFragment monitorFragment = MonitorFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout,monitorFragment);
@@ -155,7 +157,7 @@ public class MainActivity extends AppCompatActivity
 
         loadECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         PastEventsFragment pastEventsFragment = PastEventsFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout,pastEventsFragment);
@@ -163,12 +165,11 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-
     private  void loadReportsPage(){
 
         loadNonECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         ReportsFragment reportsFragment = ReportsFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout,reportsFragment);
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity
 
         loadNonECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         DiagnosisFragment diagnosisFragment = DiagnosisFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout,diagnosisFragment);
@@ -193,7 +194,7 @@ public class MainActivity extends AppCompatActivity
 
         loadNonECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         SettingsFragment settingsFragment = SettingsFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout,settingsFragment);
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity
 
         loadNonECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         DeviceMapFragment deviceMapFragment = DeviceMapFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout,deviceMapFragment);
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity
     private void loadBluetoothPage(){
         loadNonECGPage();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         BluetoothFragment bluetoothFragment = BluetoothFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.MainContentFrameLayout, bluetoothFragment);
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private  void loadHeader(){
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         HeaderFragment headerFragment = HeaderFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.ECGDetailsFrameLayout,headerFragment);
@@ -235,7 +236,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadFooter(){
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         FooterFragment footerFragment = FooterFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.ECGFooterFrameLayout,footerFragment);
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void removeHeader(){
-        fragmentManager         = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         HeaderFragment headerFragment = HeaderFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(headerFragment);
