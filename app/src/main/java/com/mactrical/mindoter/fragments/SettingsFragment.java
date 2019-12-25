@@ -1,5 +1,4 @@
-package fragments;
-
+package com.mactrical.mindoter.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,38 +10,37 @@ import androidx.fragment.app.Fragment;
 
 import com.mactrical.mindoter.R;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MonitorFragment.OnFragmentInteractionListener} interface
+ * {@link SettingsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MonitorFragment#newInstance} factory method to
+ * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonitorFragment extends Fragment {
+public class SettingsFragment extends Fragment {
+
     private OnFragmentInteractionListener mListener;
 
-
-    public MonitorFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
-    public static MonitorFragment newInstance() {
-        return new MonitorFragment();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment SettingsFragment.
+     */
+    public static SettingsFragment newInstance() {
+        return new SettingsFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_monitor, container, false);
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
     @Override
@@ -73,6 +71,5 @@ public class MonitorFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-
     }
 }

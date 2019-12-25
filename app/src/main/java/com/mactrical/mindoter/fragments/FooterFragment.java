@@ -1,6 +1,7 @@
-package fragments;
+package com.mactrical.mindoter.fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +15,21 @@ import com.mactrical.mindoter.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DiagnosisFragment.OnFragmentInteractionListener} interface
+ * {@link FooterFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DiagnosisFragment#newInstance} factory method to
+ * Use the {@link FooterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DiagnosisFragment extends Fragment {
+public class FooterFragment extends Fragment {
+
     private OnFragmentInteractionListener mListener;
 
-    public DiagnosisFragment() {
+    public FooterFragment() {
         // Required empty public constructor
     }
 
-    public static DiagnosisFragment newInstance() {
-        return new DiagnosisFragment();
+    public static FooterFragment newInstance() {
+        return new FooterFragment();
     }
 
 
@@ -35,9 +37,8 @@ public class DiagnosisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diagnosis, container, false);
+        return inflater.inflate(R.layout.fragment_footer, container, false);
     }
-
 
     @Override
     public void onAttach(@NonNull Context context) {

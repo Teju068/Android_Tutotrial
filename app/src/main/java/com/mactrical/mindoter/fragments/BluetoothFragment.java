@@ -1,7 +1,6 @@
-package fragments;
+package com.mactrical.mindoter.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,29 +14,34 @@ import com.mactrical.mindoter.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FooterFragment.OnFragmentInteractionListener} interface
+ * {@link BluetoothFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FooterFragment#newInstance} factory method to
+ * Use the {@link BluetoothFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FooterFragment extends Fragment {
+public class BluetoothFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FooterFragment() {
+    public BluetoothFragment() {
         // Required empty public constructor
     }
 
-    public static FooterFragment newInstance() {
-        return new FooterFragment();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment BluetoothFragment.
+     */
+    public static BluetoothFragment newInstance() {
+        return new BluetoothFragment();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_footer, container, false);
+        return inflater.inflate(R.layout.fragment_bluetooth, container, false);
     }
 
     @Override

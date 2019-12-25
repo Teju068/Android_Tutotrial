@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorNavApp"
-    tools:context="fragments.HeaderFragment">
+    tools:context="com.mactrical.mindoter.fragments.HeaderFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

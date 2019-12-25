@@ -1,4 +1,4 @@
-package fragments;
+package com.mactrical.mindoter.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,27 +14,34 @@ import com.mactrical.mindoter.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HeaderFragment.OnFragmentInteractionListener} interface
+ * {@link DeviceMapFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HeaderFragment#newInstance} factory method to
+ * Use the {@link DeviceMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HeaderFragment extends Fragment {
+public class DeviceMapFragment extends Fragment {
+
     private OnFragmentInteractionListener mListener;
 
-    public HeaderFragment() {
+    public DeviceMapFragment() {
         // Required empty public constructor
     }
 
-    public static HeaderFragment newInstance() {
-        return new HeaderFragment();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment DeviceMapFragment.
+     */
+    public static DeviceMapFragment newInstance() {
+        return new DeviceMapFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_header, container, false);
+        return inflater.inflate(R.layout.fragment_devicemap, container, false);
     }
 
     @Override

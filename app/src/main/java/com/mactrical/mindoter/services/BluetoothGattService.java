@@ -1,4 +1,4 @@
-package services;
+package  com.mactrical.mindoter.services;
 
 import android.app.Service;
 import android.content.Intent;

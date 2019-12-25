@@ -1,4 +1,4 @@
-package monitorView;
+package com.mactrical.mindoter.monitorView;
 
 import android.content.Context;
 import android.content.res.TypedArray;

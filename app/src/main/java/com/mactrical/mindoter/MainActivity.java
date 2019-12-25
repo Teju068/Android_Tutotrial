@@ -1,6 +1,5 @@
 package com.mactrical.mindoter;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,16 +15,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mactrical.mindoter.fragments.BluetoothFragment;
+import com.mactrical.mindoter.fragments.DeviceMapFragment;
+import com.mactrical.mindoter.fragments.DiagnosisFragment;
+import com.mactrical.mindoter.fragments.FooterFragment;
+import com.mactrical.mindoter.fragments.HeaderFragment;
+import com.mactrical.mindoter.fragments.MonitorFragment;
+import com.mactrical.mindoter.fragments.PastEventsFragment;
+import com.mactrical.mindoter.fragments.ReportsFragment;
+import com.mactrical.mindoter.fragments.SettingsFragment;
 
-import fragments.BluetoothFragment;
-import fragments.DeviceMapFragment;
-import fragments.DiagnosisFragment;
-import fragments.FooterFragment;
-import fragments.HeaderFragment;
-import fragments.MonitorFragment;
-import fragments.PastEventsFragment;
-import fragments.ReportsFragment;
-import fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , DeviceMapFragment.OnFragmentInteractionListener, DiagnosisFragment.OnFragmentInteractionListener ,
@@ -274,10 +273,4 @@ public class MainActivity extends AppCompatActivity
         mMainContentlayout.setLayoutParams(param);
     }
 
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

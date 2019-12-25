@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="fragments.MonitorFragment">
+    tools:context="com.mactrical.mindoter.fragments.MonitorFragment">
 
-    <monitorView.GridView
+    <com.mactrical.mindoter.monitorView.GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/grid_margin"
         />
 
-    <monitorView.GraphView
+    <com.mactrical.mindoter.monitorView.GraphView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/grid_margin" />
