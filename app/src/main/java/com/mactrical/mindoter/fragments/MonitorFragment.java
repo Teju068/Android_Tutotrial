@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import com.mactrical.mindoter.R;
 import com.tv.common.BaseFragment;
 
-
 /**
  * A simple {@link BaseFragment} subclass.
  * Activities that contain this fragment must implement the

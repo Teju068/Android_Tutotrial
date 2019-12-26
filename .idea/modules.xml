@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Android_Tutotrial-Mindoter.iml" filepath="$PROJECT_DIR$/Android_Tutotrial-Mindoter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Android_Tutotrial-app.iml" filepath="$PROJECT_DIR$/app/Android_Tutotrial-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mindoter.iml" filepath="$PROJECT_DIR$/Mindoter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />

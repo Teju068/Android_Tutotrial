@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.mactrical.mindoter.R;
-import com.tv.common.BaseFragment;
 
 /**
  * A simple {@link BaseFragment} subclass.
@@ -19,7 +19,7 @@ import com.tv.common.BaseFragment;
  * Use the {@link HeaderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HeaderFragment extends BaseFragment {
+public class HeaderFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public HeaderFragment() {
